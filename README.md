@@ -1,4 +1,4 @@
-Write the following command to before initializing the code:
+Write the following command to run the code:
 1) Install Virtual env: pip install virtualenv
 2) Create a virtual env: virtualenv .venv
 3) Go to Virtualenv: ./.venv/scripts/activate
