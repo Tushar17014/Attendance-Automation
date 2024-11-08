@@ -13,9 +13,8 @@ import { Calendar } from "@/components/ui/calendar";
 
 
 function DateSelection({ selectedDate }) {
-    const today = new Date();
 
-    const nextDate = addDays(new Date(), 1);
+    const nextDate = addDays(new Date(), 0);
 
     const [date, setDate] = useState(nextDate);
     const [isOpen, setIsOpen] = useState(false);

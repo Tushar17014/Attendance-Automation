@@ -36,7 +36,9 @@ function SideNav() {
 
   return (
     <div className='border shadow-md h-screen p-5'>
-      <Image src={'./logo.svg'} width={150} height={35} alt='logo' />
+      <Link href='/dashboard'>
+        <Image src={'./logo.svg'} width={150} height={35} alt='logo' />
+      </Link>
 
       <hr className='my-4' />
 

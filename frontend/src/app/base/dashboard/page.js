@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import CourseSelection from '../_components/CourseSelection'
 import StatusList from './_components/StatusList';
-import BarChartComponent from '../_components/BarChartComponent';
+import TodaysSchedule from '../_components/TodaysSchedule';
 import PieChartComponent from '../_components/PieChartComponent';
 import DateSelection from '../_components/DateSelection';
 
@@ -27,9 +27,9 @@ function Dashboard() {
         </div>
       </div>
       <StatusList />
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
-        <div className='md:col-span-2'>
-          <BarChartComponent totalStudent={30} totalPresentData={totalPresentData} />
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+        <div>
+          <TodaysSchedule />
         </div>
         <div>
           <PieChartComponent />

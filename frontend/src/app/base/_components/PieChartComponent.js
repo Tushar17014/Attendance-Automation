@@ -15,9 +15,9 @@ function PieChartComponent() {
         },
     ];
     return (
-        <div className='border p-5 rounded-lg'>
+        <div className='border p-5 rounded-lg' style={{height: "22rem"}}>
             <ResponsiveContainer width={'100%'} height={300}>
-                <h2 className='text-lg font-bold'>Average Attendance</h2>
+                <h2 className='text-2xl font-bold'>Average Attendance</h2>
                 <PieChart>
                     <Pie data={data01} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d" label />
                 </PieChart>

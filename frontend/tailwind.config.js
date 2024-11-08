@@ -64,7 +64,16 @@ module.exports = {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		keyframes: {
+			scroll: {
+		  	'0%': { transform: 'translateX(0)' },
+		  	'100%': { transform: 'translateX(-100%)' },
+			},
+		},
+		animation: {
+			scroll: 'scroll 5s linear infinite',
+		},
   	}
   },
   plugins: [require("tailwindcss-animate")],
