@@ -5,33 +5,16 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { Search } from 'lucide-react';
 
-function StudentListTable() {
+function StudentListTable({data}) {
   const [colDef, setColDef] = useState([
-    { field: "Enroll", filter: true },
-    { field: "Name", filter: true },
-    { field: "Batch", filter: true },
-    { field: "Subject", filter: true },
-    { field: "Attendance", filter: true },
+    { field: "enroll", filter: true },
+    { field: "name", filter: true },
+    { field: "gender", filter: true },
+    { field: "batch", filter: true },
+    { field: "semester", filter: true },
   ])
 
-  const [rowData, setRowData] = useState([
-    { Enroll: "21103042", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-    { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Attendance: "100" },
-  ]);
-
+  const [rowData, setRowData] = useState(data);
   const [searchInput, setSearchInput] = useState();
   return (
     <div className='p-7'>

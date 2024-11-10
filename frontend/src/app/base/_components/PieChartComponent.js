@@ -1,21 +1,35 @@
 import React from 'react'
 import { Pie, PieChart, ResponsiveContainer } from 'recharts'
 
-function PieChartComponent() {
+function PieChartComponent({ totalPresent, totalStudent }) {
+    if (totalStudent == 0) {
+        return (
+            <div className='border p-5 rounded-lg' style={{ height: "22rem" }}>
+                <ResponsiveContainer width="100%" height={300}>
+                    <h2 className="text-2xl font-bold">Average Attendance</h2>
+                    <div className="flex flex-col items-center justify-center h-full">
+                        <h1 className="text-3xl">No Data Found</h1>
+                    </div>
+                </ResponsiveContainer>
+
+            </div>
+        )
+    }
+    const presentPer = (totalPresent / totalStudent) * 100
     const data01 = [
         {
             "name": "Present",
-            "value": 56,
+            "value": parseFloat(presentPer.toFixed(1)),
             fill: "#4846D2",
         },
         {
             "name": "Absent",
-            "value": 44,
+            "value": parseFloat((100 - presentPer).toFixed(1)),
             fill: "#ff0000",
         },
     ];
     return (
-        <div className='border p-5 rounded-lg' style={{height: "22rem"}}>
+        <div className='border p-5 rounded-lg' style={{ height: "22rem" }}>
             <ResponsiveContainer width={'100%'} height={300}>
                 <h2 className='text-2xl font-bold'>Average Attendance</h2>
                 <PieChart>

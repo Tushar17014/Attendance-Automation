@@ -1,0 +1,342 @@
+{
+    "enroll": 10003,
+    "password": "pwd1",
+    "name": "Pawan Verma",
+    "batch": "B1",
+    "courses": [
+        "ML01",
+        "DL01",
+        "SC01",
+        "M01"
+    ]
+}
+
+{
+    "uid": "Teach1",
+    "password": "teach@123",
+    "name": "Nikhil Gupta",
+    "courses": [
+        {
+            "courseID": "ML01",
+            "batch": [
+                "B1",
+                "B2",
+                "B3"
+            ]
+        },
+        {
+            "courseID": "DL01",
+            "batch": [
+                "B1",
+                "B2",
+                "B3"
+            ]
+        },
+        {
+            "courseID": "SC01",
+            "batch": [
+                "B4",
+                "B5",
+                "B6"
+            ]
+        },
+        {
+            "courseID": "SCL01",
+            "batch": [
+                "B4",
+                "B5"
+            ]
+        },
+        {
+            "courseID": "MLL01",
+            "batch": [
+                "B1",
+                "B2"
+            ]
+        }
+    ],
+    "timetable": {
+        "Monday": [
+            {
+                "startTime": "9:00",
+                "endTime": "9:50",
+                "cid": "ML01",
+                "type": "Lecture",
+                "room": "CS2"
+            },
+            {
+                "startTime": "10:00",
+                "endTime": "11:50",
+                "cid": "MLL01",
+                "type": "Lab",
+                "room": "CL01"
+            },
+            {
+                "startTime": "3:00",
+                "endTime": "3:50",
+                "cid": "DL01",
+                "type": "Lecture",
+                "room": "FF6"
+            }
+        ],
+        "Tuesday": [
+            {
+                "startTime": "12:00",
+                "endTime": "12:50",
+                "cid": "ML01",
+                "type": "Lecture",
+                "room": "CS2"
+            },
+            {
+                "startTime": "2:00",
+                "endTime": "2:50",
+                "cid": "SC01",
+                "type": "Lecture",
+                "room": "G6"
+            },
+            {
+                "startTime": "3:00",
+                "endTime": "3:50",
+                "cid": "DL01",
+                "type": "Lecture",
+                "room": "FF6"
+            }
+        ],
+        "Wednesday": [
+            {
+                "startTime": "9:00",
+                "endTime": "9:50",
+                "cid": "ML01",
+                "type": "Lecture",
+                "room": "G2"
+            },
+            {
+                "startTime": "1:00",
+                "endTime": "2:50",
+                "cid": "SCL01",
+                "type": "Lab",
+                "room": "CL02"
+            },
+            {
+                "startTime": "3:00",
+                "endTime": "3:50",
+                "cid": "DL01",
+                "type": "Lecture",
+                "room": "FF6"
+            },
+            {
+                "startTime": "4:00",
+                "endTime": "4:50",
+                "cid": "SC01",
+                "type": "Lecture",
+                "room": "FF6"
+            }
+        ],
+        "Thursday": [
+            {
+                "startTime": "12:00",
+                "endTime": "12:50",
+                "cid": "ML01",
+                "type": "Lecture",
+                "room": "G2"
+            }
+        ],
+        "Friday": [
+            {
+                "startTime": "9:00",
+                "endTime": "9:50",
+                "cid": "ML01",
+                "type": "Lecture",
+                "room": "G2"
+            },
+            {
+                "startTime": "1:00",
+                "endTime": "2:50",
+                "cid": "SCL01",
+                "type": "Lab",
+                "room": "CL02"
+            },
+            {
+                "startTime": "3:00",
+                "endTime": "3:50",
+                "cid": "DL01",
+                "type": "Lecture",
+                "room": "FF6"
+            },
+            {
+                "startTime": "4:00",
+                "endTime": "4:50",
+                "cid": "SC01",
+                "type": "Lecture",
+                "room": "FF6"
+            }
+        ]
+    }
+}
+
+{
+    "10001": {
+        "ML01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": true
+        },
+        "MLL01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": true
+        },
+        "DL01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": false
+        },
+        "SC01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": true
+        },
+        "SCL01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": false
+        },
+    },
+    "10002": {
+        "ML01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": true
+        },
+        "DL01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": false
+        },
+        "SC01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": true
+        }
+    },
+    "10003": {
+        "ML01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": true
+        },
+        "DL01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": false
+        },
+        "SC01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": false,
+            "07/11/24": true,
+            "08/11/24": true
+        },
+        "M01": {
+            "04/11/24": true,
+            "05/11/24": true,
+            "06/11/24": true,
+            "07/11/24": true,
+            "08/11/24": true
+        }
+    }
+}
+
+{
+    "enroll": 10002,
+    "courses": [
+        {
+            "cid":"ML01",
+            "attendanceRecords":[
+                {
+                    "date":"2024-11-05",
+                    "status":true
+                },
+                {
+                    "date":"2024-11-06",
+                    "status":true
+                },
+                {
+                    "date":"2024-11-07",
+                    "status":true
+                }
+            ]
+        },
+        {
+            "cid":"DL01",
+            "attendanceRecords":[
+                {
+                    "date":"2024-11-05",
+                    "status":true
+                },
+                {
+                    "date":"2024-11-06",
+                    "status":false
+                },
+                {
+                    "date":"2024-11-07",
+                    "status":false
+                }
+            ]
+        },
+        {
+            "cid":"SC01",
+            "attendanceRecords":[
+                {
+                    "date":"2024-11-05",
+                    "status":true
+                },
+                {
+                    "date":"2024-11-06",
+                    "status":true
+                },
+                {
+                    "date":"2024-11-07",
+                    "status":true
+                }
+            ]
+        },
+        {
+            "cid":"M01",
+            "attendanceRecords":[
+                {
+                    "date":"2024-11-05",
+                    "status":true
+                },
+                {
+                    "date":"2024-11-06",
+                    "status":true
+                },
+                {
+                    "date":"2024-11-07",
+                    "status":true
+                }
+            ]
+        }
+    ]
+}

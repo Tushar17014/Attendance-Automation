@@ -12,6 +12,24 @@ import moment from 'moment/moment';
 import { Calendar } from "@/components/ui/calendar";
 
 
+export function formatDate(selectedDate) {
+    let isoDate = selectedDate;
+    let day = 'Monday';
+    if (selectedDate) {
+        const date = new Date(selectedDate.toString().replace(/\s\([^)]+\)$/, ''));
+        day = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' });
+        // date.setUTCHours(0, 0, 0, 0);
+        // isoDate = date.toISOString();
+        isoDate = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Asia/Kolkata',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).format(date) + "T00:00:00.000Z";
+    }
+    return { day: day, isoDate: isoDate };
+}
+
 function DateSelection({ selectedDate }) {
 
     const nextDate = addDays(new Date(), 0);
@@ -20,7 +38,7 @@ function DateSelection({ selectedDate }) {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        selectedDate(date)
+        selectedDate(formatDate(date))
     }, [date]);
 
     const handleDateSelect = (selectedDate) => {

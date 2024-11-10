@@ -1,60 +1,44 @@
-import React, { useState } from 'react'
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { Checkbox } from "@/components/ui/checkbox"
-import '../../_components/scrollbar.css'
+"use client"
+import React, { useEffect, useState } from 'react'
+import { AgGridReact } from 'ag-grid-react';
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
 
 function StudentAttendanceList({ attendanceData }) {
-    const [attendanceDataML, setAttendanceDataML] = useState([
-        { date: "1 Nov", status: true },
-        { date: "2 Nov", status: false },
-        { date: "3 Nov", status: false },
-        { date: "4 Nov", status: true },
-        { date: "5 Nov", status: true },
-        { date: "6 Nov", status: false },
-        { date: "7 Nov", status: true },
-        { date: "8 Nov", status: false },
-        { date: "9 Nov", status: true },
-        { date: "10 Nov", status: true },
-    ]);
-    const handleCheckboxChange = (index) => {
-        setAttendanceDataML((prevData) =>
-            prevData.map((item, i) =>
-                i === index ? { ...item, status: !item.status } : item
-            )
-        );
-    };
+    const [colDef, setColDef] = useState(null);
+    const [showData, setShowData] = useState(false);
+    const [rowData, setRowData] = useState(null);
+    
+    useEffect(()=>{
+        if(attendanceData){
+            let temp = [];
+            attendanceData?.forEach(ele =>{
+                temp.push(Object.keys(ele))
+            })
+            temp = [...new Set(temp.flat())]
+            let fieldArray = [];
+            temp?.forEach(ele => {
+                fieldArray.push({field: ele});
+            })
+            setColDef(fieldArray);
+            setRowData(attendanceData);
+            setShowData(true);
+        }
+    }, [attendanceData])
     return (
-        <div className='py-5 rounded-lg border'>
-            <div className='h-96 overflow-y-auto scrollbar-custom px-5'>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[100px]">Date</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Edit</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {attendanceDataML.map((item, index) => {
-                            return (
-                                <TableRow key={index}>
-                                    <TableCell className="font-medium">{item.date}</TableCell>
-                                    <TableCell>{item.status ? 'Present' : 'Absent'}</TableCell>
-                                    <TableCell><Checkbox checked={item.status} onClick={() => handleCheckboxChange(index)} /></TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-
-            </div>
+        <div>
+            {attendanceData && showData && (
+                <div
+                    className="ag-theme-quartz"
+                    style={{ height: 500 }}
+                >
+                    <AgGridReact
+                        rowData={rowData}
+                        columnDefs={colDef}
+                        defaultColDef={{width: 100}}
+                    />
+                </div>
+            )}
         </div>
     )
 }
