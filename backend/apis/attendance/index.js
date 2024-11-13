@@ -1,6 +1,10 @@
 const { Respond } = require('../../utils/ExpressUtil');
 const attendanceRef = require('../../models/attendance');
 const teacherRef = require('../../models/teacherData');
+const path = require('path');
+const fs = require('fs');
+const axios = require('axios');
+const FormData = require('form-data')
 
 async function getAttendanceByEnroll(req, res, next) {
     try {
@@ -118,29 +122,70 @@ async function getAttendanceByCourseDate(req, res, next) {
     }
 }
 
-async function takeAttendanceDataUpload(req, res) {
+async function takeAttendance(req, res) {
     try {
-        const imagePath = path.join(__dirname, req.file.path);
+        if (!req.file) {
+            console.error('No file received');
+            return res.status(400).send('No file uploaded');
+        }
+        const targetDirectory = path.resolve(__dirname, '../../')
+        const imagePath = path.join(targetDirectory, req.file.path);
 
-        // Send the image to the Python server
         const formData = new FormData();
         formData.append('image', fs.createReadStream(imagePath));
-
-        const response = await axios.post('http://localhost:5000/predict', formData, {
-            headers: formData.getHeaders(),
+        const response = await axios.post('http://localhost:5000/sendStudentAttendance', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
         });
 
-        // Clean up the uploaded file
         fs.unlinkSync(imagePath);
 
-        // Send back the response to the frontend
-        res.json({ names: response.data.names });
+        return Respond({
+            res,
+            status: 200,
+            data: response?.data
+        });
     } catch (error) {
         console.error('Error processing image:', error);
         res.status(500).send('Error processing image');
     }
 }
 
+async function markAttendance(req, res) {
+    const { enroll, cid, status } = req.body;
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    console.log(today);
+    try {
+        const student = await attendanceRef.findOne({ enroll });
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        const course = student.courses.filter(course => course.cid == cid)[0];
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+        const recordIndex = course.attendanceRecords.findIndex(record =>
+            record.date === today
+        );
+        if (recordIndex !== -1) {
+            course.attendanceRecords[recordIndex].status = status;
+        } else {
+            course.attendanceRecords.push({ date: today, status: status });
+        }
+        const response = await student.save();
+        return Respond({
+            res,
+            status: 200,
+            data: {success: true}
+        });
+    } catch (error) {
+        console.error('Error Marking Attendance:', error);
+        res.status(500).send('Error marking attendance');
+    }
+}
 
 
-module.exports = { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, takeAttendanceDataUpload };
+
+module.exports = { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, takeAttendance, markAttendance };

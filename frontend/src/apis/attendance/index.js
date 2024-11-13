@@ -29,3 +29,17 @@ export async function getAttendanceByCourse(cid) {
         return {};
     }
 }
+
+export async function takeAttendance(data){
+    try{
+        const response = await axiosInstance.post(`/takeAttendance`, data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        });
+        return response.data;
+    } catch(err){
+        console.error(err.message);
+        return {};
+    }
+}

@@ -14,41 +14,20 @@ import { Button } from '@/components/ui/button';
 
 
 
-function AttendanceTable({ attendanceData }) {
-    const [attendanceDataML, setAttendanceDataML] = useState([
-        { Enroll: "21103042", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: false },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: false },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: false },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: false },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-        { Enroll: "21103041", Name: "Tushar Sharma", Batch: "B2", Subject: "Maths", Status: true },
-    ]);
+function AttendanceTable({ attendanceData, records }) {
+    const [attendanceDataML, setAttendanceDataML] = useState(records);
     const handleSubmit = (e) => {
         e.preventDefault();
         const result = attendanceDataML.map((item) => ({
-            Enroll: item.Enroll,
-            Name: item.Name,
-            Batch: item.Batch,
-            Subject: item.Subject,
-            Status: item.Status,
+            enroll: item.enroll,
+            status: item.status,
         }));
         attendanceData(result)
     }
     const handleCheckboxChange = (index) => {
-        setAttendanceDataML((prevData) =>
-            prevData.map((item, i) =>
-                i === index ? { ...item, Status: !item.Status } : item
-            )
-        );
+        const updatedData = [...attendanceDataML];
+        updatedData[index].status = !updatedData[index].status;
+        setAttendanceDataML(updatedData);
     };
     return (
         <div>
@@ -68,11 +47,11 @@ function AttendanceTable({ attendanceData }) {
                             {attendanceDataML.map((item, index) => {
                                 return (
                                     <TableRow key={index}>
-                                        <TableCell className="font-medium">{item.Enroll}</TableCell>
-                                        <TableCell>{item.Name}</TableCell>
-                                        <TableCell>{item.Batch}</TableCell>
+                                        <TableCell className="font-medium">{item.enroll}</TableCell>
+                                        <TableCell>{item.name}</TableCell>
+                                        <TableCell>{item.batch}</TableCell>
                                         <TableCell className="text-right">
-                                            <Checkbox checked={item.Status} onClick={() => handleCheckboxChange(index)} />
+                                            <Checkbox checked={item.status} onClick={() => handleCheckboxChange(index)} />
                                         </TableCell>
                                     </TableRow>
                                 );

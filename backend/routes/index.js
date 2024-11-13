@@ -2,11 +2,11 @@ var express = require('express');
 var multer = require('multer');
 const { getAllTeachers, getTeacherByUid, getTeacherTimetable, getTeacherCourses } = require('../apis/teacher');
 const { getAllCourses, getCourseByID, getCourseByArrayID } = require('../apis/courses');
-const { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, takeAttendanceDataUpload } = require('../apis/attendance');
-const { getAllStudents, getStudentByEnroll, getStudentByCourse, getStudentByTeacher } = require('../apis/student');
+const { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, takeAttendance, markAttendance } = require('../apis/attendance');
+const { getAllStudents, getStudentByEnroll, getStudentByCourse, getStudentByTeacher, addStudentEncodings } = require('../apis/student');
 var router = express.Router();
 
-const upload = multer({ dest: 'uploads/' });
+const {upload} = require('../middlewares/uploadImage');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -56,6 +56,12 @@ router.get(
   getStudentByTeacher
 );
 
+router.post(
+  '/addStudentEncodings',
+  upload.single('image'),
+  addStudentEncodings
+);
+
 
 
 //Courses
@@ -99,9 +105,14 @@ router.get(
 );
 
 router.post(
-  '/takeAttendanceDataUpload',
+  '/takeAttendance',
   upload.single('image'),
-  takeAttendanceDataUpload
+  takeAttendance
+);
+
+router.post(
+  '/markAttendance',
+  markAttendance
 );
 
 

@@ -21,6 +21,7 @@ function ImageUploadComponent({uploadedImage}) {
             <Input
                 type="file"
                 accept="image/*"
+                name="image"
                 onChange={handleImageChange}
                 className="block w-[280px] text-sm text-gray-500 file:mr-4 file:p-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100 mb-4 h-14"
             />

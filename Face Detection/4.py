@@ -9,6 +9,7 @@ trainPath = "data/train/"
 testPath = "data/test/4/"
 
 student_image = fr.load_image_file(trainPath + "train4.jpg")
+student_image = cv2.cvtColor(student_image, cv2.COLOR_BGR2RGB)
 student_encoding = fr.face_encodings(student_image)[0]
 encList.append(student_encoding)
 

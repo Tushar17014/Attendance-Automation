@@ -6,14 +6,18 @@ import ClassSelection from '../_components/ClassSelection';
 import AttendanceTable from './_components/attendanceTable';
 import { getCourseDetailsArray } from '@/apis/courses';
 import { useSelector } from 'react-redux';
+import { takeAttendance } from '@/apis/attendance';
+import { getStudentByCourse } from '@/apis/student';
 
 function TakeAttendance() {
   const [selectedClass, setSelectedClass] = useState();
-  const [uploadedImage, setUploadedImage] = useState();
+  const [uploadedImage, setUploadedImage] = useState(null);
   const [attendanceData, setAttendanceData] = useState();
   const [showList, setShowList] = useState(false);
   const [coursesIDArray, setCoursesIDArray] = useState(null);
   const [coursesArray, setCoursesArray] = useState(null);
+  const [attendanceRec, setAttendanceRec] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const teacherDetails = useSelector((state) => state.teacherDetails.data);
 
@@ -44,25 +48,44 @@ function TakeAttendance() {
       }
       fetchData();
     }
-  }, [coursesIDArray])
+  }, [coursesIDArray]);
+
+  useEffect(()=>{
+    if(attendanceData){
+      console.log(attendanceData);
+    }
+  }, [attendanceData]);
 
 
-  const handleSubmit = async(e) => {
+  const handleImageSelect = (selectedImage) => {
+    setUploadedImage(selectedImage);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!uploadedImage) {
+      alert("No Image")
+    }
     const formData = new FormData();
     formData.append('image', uploadedImage);
-
+    setShowList(true);
     try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      console.log('Detected Names:', data.names);
+      const allStudents = await getStudentByCourse(selectedClass);
+      const response = await takeAttendance(formData);
+      let temp = [];
+      allStudents.forEach(obj => {
+        if (response.includes(obj.enroll)) {
+          temp.push({ enroll: obj.enroll, name: obj.name, batch: obj.batch, status: true });
+        }
+        else {
+          temp.push({ enroll: obj.enroll, name: obj.name, batch: obj.batch, status: false });
+        }
+      })
+      setAttendanceRec(temp);
+      setLoading(false);
     } catch (error) {
       console.error('Error uploading image:', error);
     }
-    setShowList(true);
   }
 
 
@@ -75,14 +98,14 @@ function TakeAttendance() {
           <div className='flex gap-2 items-center mb-5'>
             <label>Select Class: </label>
             {coursesArray ?
-              <ClassSelection selectedClass={setSelectedClass} classes={coursesArray}/>
+              <ClassSelection selectedClass={setSelectedClass} classes={coursesArray} />
               :
               <ClassSelection selectedClass={setSelectedClass} classes={[{ name: "abhjsd" }]} />
             }
           </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} encType='multipart/form-data' method='POST'>
             <div>
-              <ImageUploadComponent uploadedImage={setUploadedImage} />
+              <ImageUploadComponent uploadedImage={handleImageSelect} />
             </div>
             {uploadedImage && selectedClass && (
               <Button type="submit">Submit</Button>
@@ -91,7 +114,15 @@ function TakeAttendance() {
         </div>
         {showList && (
           <div>
-            <AttendanceTable attendanceData={setAttendanceData} />
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <div>
+                {attendanceRec && (
+                  <AttendanceTable records={attendanceRec} attendanceData={setAttendanceData}/>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>

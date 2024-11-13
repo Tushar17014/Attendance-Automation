@@ -82,7 +82,7 @@ function CheckAttendance() {
       <h2 className='text-2xl font-bold'>Attendance</h2>
       <div className='flex gap-5 my-5 p-5 border rounded-lg shadow-sm'>
         <div className='flex gap-2 items-center'>
-          <label>Enter Enrollment: </label>
+          <label>Select Course: </label>
           {coursesArray ?
             <ClassSelection selectedClass={setSelectedCourse} classes={coursesArray} />
             :

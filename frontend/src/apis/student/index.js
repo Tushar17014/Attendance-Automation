@@ -19,3 +19,13 @@ export async function getStudentByEnroll(enroll) {
         return {};
     }
 }
+
+export async function getStudentByCourse(courseID) {
+    try{
+        const response = await axiosInstance.get(`/getStudentByCourse?courseID=${courseID}`);
+        return response.data;
+    } catch(err){
+        console.error(err.message);
+        return {};
+    }
+}
