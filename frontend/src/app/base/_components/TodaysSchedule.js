@@ -1,6 +1,6 @@
 import { SquareDashedBottomCode } from 'lucide-react';
 import React from 'react'
-import './scrollBar.css'
+import './css/scrollBar.css'
 
 function TodaysSchedule() {
     const Schedule = [

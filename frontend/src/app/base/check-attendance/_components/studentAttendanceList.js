@@ -18,7 +18,12 @@ function StudentAttendanceList({ attendanceData }) {
             temp = [...new Set(temp.flat())]
             let fieldArray = [];
             temp?.forEach(ele => {
-                fieldArray.push({field: ele});
+                if(ele == 'name'){
+                    fieldArray.push({field: ele, width: 130});
+                }
+                else{
+                    fieldArray.push({field: ele});
+                }
             })
             setColDef(fieldArray);
             setRowData(attendanceData);

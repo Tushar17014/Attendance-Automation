@@ -11,33 +11,33 @@ function SideNav() {
       id: 1,
       name: 'Dashboard',
       icon: LayoutIcon,
-      path: '/dashboard'
+      path: '/teacher/dashboard'
     },
     {
       id: 2,
       name: 'Students',
       icon: GraduationCap,
-      path: '/students'
+      path: '/teacher/students'
     },
     {
       id: 3,
       name: 'Take Attendance',
       icon: NotebookPen,
-      path: '/take-attendance'
+      path: '/teacher/take-attendance'
     },
     {
       id: 4,
       name: 'Check Attendance',
       icon: Hand,
-      path: '/check-attendance'
+      path: '/teacher/check-attendance'
     },
   ]
   const path = usePathname();
 
   return (
     <div className='border shadow-md h-screen p-5'>
-      <Link href='/dashboard'>
-        <Image src={'./logo.svg'} width={150} height={35} alt='logo' />
+      <Link href='/teacher/dashboard'>
+        <Image src={'../logo.svg'} width={150} height={35} alt='logo' />
       </Link>
 
       <hr className='my-4' />

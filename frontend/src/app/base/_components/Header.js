@@ -10,19 +10,24 @@ import { Button } from '@/components/ui/button';
 import { getTeacherDetails } from '@/apis/teacher';
 import { useDispatch } from 'react-redux';
 import { getTeacherDetailsRedux } from '@/store/teacherSlice';
+import { useRouter } from 'next/navigation';
 
 
 function Header() {
-  const teacherID = "Teach1";
+  const UID = localStorage.getItem('uid');
   const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState();
   const [teacherDetails, setTeacherDetails] = useState(null);
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getTeacherDetails(teacherID);
+        if(!UID){
+          router.push('/');
+        }
+        const response = await getTeacherDetails(UID);
         if (!response) {
-          throw new Error('Failed to Fetch');
+          router.push('/');
         }
         setTeacherDetails(response);
         dispatch(getTeacherDetailsRedux(response));
@@ -32,7 +37,8 @@ function Header() {
     }
     fetchData();
   }, []);
-  
+
+
 
   return (
     <div className='p-4 shadow-sm border flex justify-between items-center'>

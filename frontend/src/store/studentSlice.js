@@ -9,7 +9,7 @@ export const studentSlice = createSlice({
   initialState,
   reducers: {
     getAllStudentsRedux: (state, action) => {
-        state.allStudents = action.payload
+      state.allStudents = action.payload
     }
   },
 })

@@ -20,8 +20,8 @@ function CheckAttendance() {
   useEffect(() => {
     if (teacherDetails) {
       let temp = [];
-      teacherDetails.courses.forEach(courseObject => {
-        temp.push(courseObject.cid);
+      teacherDetails.courses?.forEach(courseObject => {
+        temp.push(courseObject);
       })
       setCoursesIDArray(temp);
     }

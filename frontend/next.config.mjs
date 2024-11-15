@@ -3,9 +3,17 @@ const nextConfig = {
     async rewrites() {
         return [
             {
-                source: '/:path*',
+                source: '/teacher/:path*',
                 destination: '/base/:path*',
             },
+            {
+                source: '/admin/:path*',
+                destination: '/adminBase/:path*'
+            },
+            {
+                source: '/student/:path*',
+                destination: '/studentBase/:path*'
+            }
         ];
     },
 };

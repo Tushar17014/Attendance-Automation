@@ -29,3 +29,27 @@ export async function getStudentByCourse(courseID) {
         return {};
     }
 }
+
+export async function addStudentEncodings(data){
+    try{
+        const response = await axiosInstance.post(`/addStudentEncodings`, data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        });
+        return response.data;
+    } catch(err){
+        console.error(err.message);
+        return {};
+    }
+}
+
+export async function addStudent(data){
+    try{
+        const response = await axiosInstance.post(`/addStudent`, data);
+        return response.data;
+    } catch(err){
+        console.error(err.message);
+        return {};
+    }
+}

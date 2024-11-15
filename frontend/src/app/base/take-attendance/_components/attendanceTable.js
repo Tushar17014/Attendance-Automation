@@ -9,7 +9,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Checkbox } from "@/components/ui/checkbox"
-import '../../_components/scrollBar.css'
+import '../../_components/css/scrollBar.css'
 import { Button } from '@/components/ui/button';
 
 
@@ -37,20 +37,20 @@ function AttendanceTable({ attendanceData, records }) {
                         <TableCaption>A list of the students.</TableCaption>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[100px]">Enrollment</TableHead>
+                                <TableHead>Enrollment</TableHead>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Batch</TableHead>
-                                <TableHead className="text-right">Status</TableHead>
+                                <TableHead>Status</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {attendanceDataML.map((item, index) => {
                                 return (
                                     <TableRow key={index}>
-                                        <TableCell className="font-medium">{item.enroll}</TableCell>
+                                        <TableCell>{item.enroll}</TableCell>
                                         <TableCell>{item.name}</TableCell>
                                         <TableCell>{item.batch}</TableCell>
-                                        <TableCell className="text-right">
+                                        <TableCell>
                                             <Checkbox checked={item.status} onClick={() => handleCheckboxChange(index)} />
                                         </TableCell>
                                     </TableRow>

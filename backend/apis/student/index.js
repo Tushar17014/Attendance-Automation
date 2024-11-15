@@ -2,6 +2,10 @@ const { Respond } = require('../../utils/ExpressUtil');
 const studentRef = require('../../models/studentData');
 const studentEncodingsRef = require('../../models/studentEncodings');
 const teacherRef = require('../../models/teacherData');
+const path = require('path');
+const fs = require('fs');
+const axios = require('axios');
+const FormData = require('form-data')
 
 async function getAllStudents(req, res, next) {
     try {
@@ -108,5 +112,23 @@ async function addStudentEncodings(req, res) {
     }
 }
 
+async function addStudent(req, res) {
+    try {
 
-module.exports = { getAllStudents, getStudentByEnroll, getStudentByCourse, getStudentByTeacher, addStudentEncodings };
+        const { enroll, name, batch, gender, dob, courses } = req.body;
+
+        const rec = new studentRef({ enroll: parseInt(enroll), name: name, gender: gender, dob: dob, password: 'pwd1', batch: batch, courses: courses, semester: 6 })
+        const data = await rec.save();
+        return Respond({
+            res,
+            status: 200,
+            data: data
+        })
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Error Adding Student');
+    }
+}
+
+
+module.exports = { getAllStudents, getStudentByEnroll, getStudentByCourse, getStudentByTeacher, addStudentEncodings, addStudent };

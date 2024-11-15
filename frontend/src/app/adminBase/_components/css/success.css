@@ -1,0 +1,16 @@
+@keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 32%;
+    }
+  }
+  
+  .typewriter {
+    overflow: hidden; /* Ensures text doesn't overflow as it types out */
+    white-space: nowrap; /* Keeps text on one line */
+    display: inline-block; /* Keeps text inline without overflow */
+    animation: typing 800ms steps(30, end) forwards; /* Adjust timing and steps as needed */
+  }
+  

@@ -9,11 +9,15 @@ export const teacherDetailsSlice = createSlice({
   initialState,
   reducers: {
     getTeacherDetailsRedux: (state, action) => {
-        state.data = action.payload
+      state.data = action.payload
+    },
+    getAllTeacherDetailsRedux: (state, action) => {
+      state.data = action.payload
     }
   },
 })
 
-export const { getTeacherDetailsRedux } = teacherDetailsSlice.actions
+
+export const { getTeacherDetailsRedux, getAllTeacherDetailsRedux } = teacherDetailsSlice.actions
 
 export default teacherDetailsSlice.reducer

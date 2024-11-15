@@ -22,8 +22,9 @@ function Dashboard() {
   useEffect(() => {
     if (teacherDetails) {
       let temp = [];
-      teacherDetails.courses.forEach(courseObject => {
-        temp.push(courseObject.cid);
+      teacherDetails?.courses?.forEach(courseObject => {
+        temp.push(courseObject);
+        console.log(courseObject);
       })
       setCoursesIDArray(temp);
     }
@@ -41,7 +42,7 @@ function Dashboard() {
         })
         setCoursesArray(temp);
         if(!selectedCourse){
-          setSelectedCourse(temp[0].cid); 
+          setSelectedCourse(temp[0]); 
         }
       }
       fetchData();

@@ -1,17 +1,27 @@
 var express = require('express');
 var multer = require('multer');
-const { getAllTeachers, getTeacherByUid, getTeacherTimetable, getTeacherCourses } = require('../apis/teacher');
-const { getAllCourses, getCourseByID, getCourseByArrayID } = require('../apis/courses');
+const { getAllTeachers, getTeacherByUid, getTeacherTimetable, getTeacherCourses, addTeacher } = require('../apis/teacher');
+const { getAllCourses, getCourseByID, getCourseByArrayID, addCourse } = require('../apis/courses');
 const { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, takeAttendance, markAttendance } = require('../apis/attendance');
-const { getAllStudents, getStudentByEnroll, getStudentByCourse, getStudentByTeacher, addStudentEncodings } = require('../apis/student');
+const { getAllStudents, getStudentByEnroll, getStudentByCourse, getStudentByTeacher, addStudentEncodings, addStudent } = require('../apis/student');
 var router = express.Router();
-
 const {upload} = require('../middlewares/uploadImage');
+const { login, logout } = require('../controllers/authController');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.send("Home Page");
 });
+
+router.post(
+  '/login',
+  login
+)
+
+router.post(
+  '/logout',
+  logout
+)
 
 //Teacher
 router.get(
@@ -32,6 +42,11 @@ router.get(
 router.get(
   '/getTeacherCourses',
   getTeacherCourses
+);
+
+router.post(
+  '/addTeacher',
+  addTeacher
 );
 
 
@@ -62,6 +77,11 @@ router.post(
   addStudentEncodings
 );
 
+router.post(
+  '/addStudent',
+  addStudent
+);
+
 
 
 //Courses
@@ -78,6 +98,11 @@ router.get(
 router.get(
   '/getCourseByArrayID',
   getCourseByArrayID
+);
+
+router.post(
+  '/addCourse',
+  addCourse
 );
 
 

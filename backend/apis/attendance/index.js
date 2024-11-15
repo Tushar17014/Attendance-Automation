@@ -96,14 +96,12 @@ async function getAttendanceByCourseDate(req, res, next) {
             x.courses?.forEach(ele => {
                 if (ele.cid == req.query.cid) {
                     for (let record in ele.attendanceRecords) {
-                        if (ele.attendanceRecords[record].date == req.query.date) {
+                        if (ele.attendanceRecords[record].date.toISOString() == req.query.date) {
                             out = ele.attendanceRecords[record].status;
                             flag = true;
                             break;
                         }
                     }
-                    ele.attendanceRecords?.forEach(record => {
-                    })
                 }
             })
             if (flag) {
@@ -152,33 +150,72 @@ async function takeAttendance(req, res) {
     }
 }
 
-async function markAttendance(req, res) {
-    const { enroll, cid, status } = req.body;
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
-    console.log(today);
+
+async function markSingleAttendance(enroll, cid, status, today) {
     try {
         const student = await attendanceRef.findOne({ enroll });
         if (!student) {
-            return res.status(404).json({ message: 'Student not found' });
+            const newStudent = new attendanceRef({
+                enroll: enroll,
+                courses: [
+                    {
+                        cid: cid, attendanceRecords: [
+                            { date: today, status: status }
+                        ]
+                    }
+                ]
+            });
+            await newStudent.save();
         }
-        const course = student.courses.filter(course => course.cid == cid)[0];
-        if (!course) {
-            return res.status(404).json({ message: 'Course not found' });
+        else {
+            const course = student.courses.filter(course => course.cid == cid)[0];
+            if (!course) {
+                const newCourse = {
+                    cid: cid,
+                    attendanceRecords: [
+                        {date: today, status: status}
+                    ]
+                };
+                student.courses.push(newCourse);
+            }
+            else {
+                const recordIndex = course.attendanceRecords.findIndex(record =>
+                    record.date === today
+                );
+                if (recordIndex !== -1) {
+                    course.attendanceRecords[recordIndex].status = status;
+                } else {
+                    course.attendanceRecords.push({ date: today, status: status });
+                }
+            }
+            await student.save();
         }
-        const recordIndex = course.attendanceRecords.findIndex(record =>
-            record.date === today
-        );
-        if (recordIndex !== -1) {
-            course.attendanceRecords[recordIndex].status = status;
-        } else {
-            course.attendanceRecords.push({ date: today, status: status });
-        }
-        const response = await student.save();
+        return true;
+    } catch (error) {
+        console.error('Error for enroll: ', enroll);
+        console.error('Error Marking Single Attendance:', error);
+        return false;
+    }
+}
+async function markAttendance(req, res) {
+    const {attendanceData, cid} = req.body;
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    try {
+        attendanceData?.forEach(record => {
+            let res = markSingleAttendance(record.enroll, cid, record.status, today);
+            if(!res){
+                return Respond({
+                    res,
+                    status: 200,
+                    data: { success: false }
+                });
+            }
+        })
         return Respond({
             res,
             status: 200,
-            data: {success: true}
+            data: { success: true }
         });
     } catch (error) {
         console.error('Error Marking Attendance:', error);

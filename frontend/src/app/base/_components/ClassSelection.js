@@ -11,7 +11,7 @@ import {
 
 function ClassSelection({ selectedClass, classes }) {
     const handleClassChange = (value) => {
-        selectedClass(value); // Call the prop function directly
+        selectedClass(value);
     };
     return (
         <div>

@@ -41,7 +41,9 @@ async function getAllTeachers(req, res, next){
 
 async function getTeacherByUid(req, res, next){
     try {
-        const data = await TeacherRef.findOne({uid:req.query.uid}).lean();
+
+        const data = await TeacherRef.findOne({uid: req.query.uid}).lean();
+        
         return Respond({
             res,
             status: 200,
@@ -77,23 +79,22 @@ async function getTeacherCourses(req, res, next){
         console.log(error)
     }
 }
-// async function temp(req, res, next){
-//     try {
-//         const today = new Date();
-//         const formattedDate = today.toISOString().split('T')[0];
-//         const data = new tempSchema({
-//             cid: "abc",
-//             date: formattedDate
-//         })
-//         const resp = await data.save();
-//         return Respond({
-//             res,
-//             status: 200,
-//             data: resp
-//         });
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
 
-module.exports = {getAllTeachers, test, getTeacherByUid, getTeacherTimetable, getTeacherCourses};
+async function addTeacher(req, res) {
+    try {
+        const { uid, name, courses } = req.body;
+
+        const rec = new TeacherRef({ uid: uid, password: 'pass1', name: name, courses: courses})
+        const data = await rec.save();
+        return Respond({
+            res,
+            status: 200,
+            data: data
+        })
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Error Adding Teacher');
+    }
+}
+
+module.exports = {getAllTeachers, test, getTeacherByUid, getTeacherTimetable, getTeacherCourses, addTeacher};

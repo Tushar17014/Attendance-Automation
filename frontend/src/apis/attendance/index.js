@@ -43,3 +43,14 @@ export async function takeAttendance(data){
         return {};
     }
 }
+
+export async function markAttendance(data, cid){
+    try{
+        console.log("Data: ", data);
+        const response = await axiosInstance.post(`/markAttendance`, {attendanceData: data, cid: cid});
+        return response;
+    } catch(err){
+        console.error(err.message);
+        return {};
+    }
+}
