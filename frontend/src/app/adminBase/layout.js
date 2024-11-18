@@ -1,6 +1,6 @@
 import React from 'react'
 import SideNav from './_components/SideNav.js'
-import Header from './_components/Header.js'
+import AdminHeader from './_components/Header.js'
 
 function layout({ children }) {
     return (
@@ -9,7 +9,7 @@ function layout({ children }) {
                 <SideNav/>
             </div>
             <div className='md:ml-64'>
-                <Header />
+                <AdminHeader />
                 {children}
             </div>
         </div>

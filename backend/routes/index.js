@@ -2,11 +2,11 @@ var express = require('express');
 var multer = require('multer');
 const { getAllTeachers, getTeacherByUid, getTeacherTimetable, getTeacherCourses, addTeacher } = require('../apis/teacher');
 const { getAllCourses, getCourseByID, getCourseByArrayID, addCourse } = require('../apis/courses');
-const { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, takeAttendance, markAttendance } = require('../apis/attendance');
+const { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, takeAttendance, markAttendance, getAttendanceByCourseEnroll } = require('../apis/attendance');
 const { getAllStudents, getStudentByEnroll, getStudentByCourse, getStudentByTeacher, addStudentEncodings, addStudent } = require('../apis/student');
 var router = express.Router();
 const {upload} = require('../middlewares/uploadImage');
-const { login, logout } = require('../controllers/authController');
+const { login } = require('../controllers/authController');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -18,10 +18,6 @@ router.post(
   login
 )
 
-router.post(
-  '/logout',
-  logout
-)
 
 //Teacher
 router.get(
@@ -127,6 +123,11 @@ router.get(
 router.get(
   '/getAttendanceByCourseDate',
   getAttendanceByCourseDate
+);
+
+router.get(
+  '/getAttendanceByCourseEnroll',
+  getAttendanceByCourseEnroll
 );
 
 router.post(

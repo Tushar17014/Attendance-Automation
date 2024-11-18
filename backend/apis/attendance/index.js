@@ -120,6 +120,30 @@ async function getAttendanceByCourseDate(req, res, next) {
     }
 }
 
+async function getAttendanceByCourseEnroll(req, res, next) {
+    try {
+        const data = await attendanceRef.find().lean();
+        let newdata = null;
+        data?.forEach(x => {
+            if(x.enroll == req.query.enroll){
+                for(let ele in x.courses){
+                    if(x.courses[ele].cid == req.query.cid){
+                        newdata = x.courses[ele].attendanceRecords;
+                        break;
+                    }
+                }
+            }
+        })
+        return Respond({
+            res,
+            status: 200,
+            data: newdata ? newdata : []
+        });
+    } catch (err) {
+        console.error(err.message);
+    }
+}
+
 async function takeAttendance(req, res) {
     try {
         if (!req.file) {
@@ -225,4 +249,4 @@ async function markAttendance(req, res) {
 
 
 
-module.exports = { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, takeAttendance, markAttendance };
+module.exports = { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, getAttendanceByCourseEnroll, takeAttendance, markAttendance };

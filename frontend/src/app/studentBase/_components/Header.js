@@ -7,30 +7,27 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Button } from '@/components/ui/button';
-import { getTeacherDetails } from '@/apis/teacher';
 import { useDispatch } from 'react-redux';
-import { getTeacherDetailsRedux } from '@/store/teacherSlice';
 import { useRouter } from 'next/navigation';
+import { getStudentByEnroll } from '@/apis/student';
+import { getStudentDetailsRedux } from '@/store/studentSlice';
 
 
 function Header() {
-  const UID = localStorage.getItem('uid');
   const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState();
-  const [teacherDetails, setTeacherDetails] = useState(null);
+  const [student, setStudent] = useState(null); 
   const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
+      const enroll = localStorage.getItem('enroll');
       try {
-        if(!UID){
+        if(!enroll){
           router.push('/');
         }
-        const response = await getTeacherDetails(UID);
-        if (!response) {
-          router.push('/');
-        }
-        setTeacherDetails(response);
-        dispatch(getTeacherDetailsRedux(response));
+        const student = await getStudentByEnroll(enroll);
+        setStudent(student);
+        dispatch(getStudentDetailsRedux(student));
       } catch (err) {
         console.log(err.message);
       }
@@ -39,7 +36,7 @@ function Header() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('uid');
+    localStorage.removeItem('enroll');
     router.push('/');
   }
 
@@ -56,7 +53,7 @@ function Header() {
           <div className='flex gap-2 items-center'>
             <User />
             <div>
-              <h2 className='font-bold'>{teacherDetails && (teacherDetails.name)}</h2>
+              <h2 className='font-bold'>{student?.name}</h2>
             </div>
           </div>
         </PopoverTrigger>

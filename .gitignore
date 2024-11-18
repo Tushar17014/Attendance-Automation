@@ -1,1 +1,4 @@
 .venv
+uploads
+data
+.env*

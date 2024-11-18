@@ -17,20 +17,26 @@ import { getAllCourses } from '@/apis/courses';
 import { getAllCoursesRedux } from '@/store/courseSlice';
 
 
-function Header() {
+function AdminHeader() {
   const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState();
   const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
+      const UID = localStorage.getItem('uid');
       try {
-        const allTeachers = await getAllTeachers();
-        const allStudents = await getAllStudents();
-        const allCourses = await getAllCourses();
+        if (!UID || UID != 'admin') {
+          router.push('/');
+        }
+        else {
+          const allTeachers = await getAllTeachers();
+          const allStudents = await getAllStudents();
+          const allCourses = await getAllCourses();
 
-        dispatch(getAllTeacherDetailsRedux(allTeachers));
-        dispatch(getAllStudentsRedux(allStudents));
-        dispatch(getAllCoursesRedux(allCourses));
+          dispatch(getAllTeacherDetailsRedux(allTeachers));
+          dispatch(getAllStudentsRedux(allStudents));
+          dispatch(getAllCoursesRedux(allCourses));
+        }
       } catch (err) {
         console.log(err.message);
       }
@@ -38,7 +44,10 @@ function Header() {
     fetchData();
   }, []);
 
-
+  const handleLogout = () => {
+    localStorage.removeItem('uid');
+    router.push('/');
+  }
 
   return (
     <div className='p-4 shadow-sm border flex justify-between items-center'>
@@ -57,7 +66,7 @@ function Header() {
           </div>
         </PopoverTrigger>
         <PopoverContent>
-          <Button className='w-full'>Logout</Button>
+          <Button className='w-full' onClick={handleLogout}>Logout</Button>
         </PopoverContent>
       </Popover>
 
@@ -65,4 +74,4 @@ function Header() {
   )
 }
 
-export default Header
+export default AdminHeader

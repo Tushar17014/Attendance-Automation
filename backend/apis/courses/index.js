@@ -48,7 +48,7 @@ async function addCourse(req, res) {
     try {
         const { cid, name, department } = req.body;
 
-        const rec = new courseRef({ cid: cid, name: name, department: department, teacher: "Teach1", studentcount: 0})
+        const rec = new courseRef({ cid: cid, name: name, department: department, teacher: "Teach1", studentcount: 0, credit: 3})
         const data = await rec.save();
         return Respond({
             res,

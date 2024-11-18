@@ -9,6 +9,15 @@ export async function getAttendanceByCourseDate(courseID, date) {
         return {};
     }
 }
+export async function getAttendanceByCourseEnroll(courseID, enroll) {
+    try{
+        const response = await axiosInstance.get(`/getAttendanceByCourseEnroll?cid=${courseID}&enroll=${enroll}`);
+        return response.data;
+    } catch(err){
+        console.error(err.message);
+        return {};
+    }
+}
 
 export async function getAttendanceByEnroll(enroll) {
     try{

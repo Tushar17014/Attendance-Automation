@@ -1,32 +1,32 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import CourseSelection from '../_components/CourseSelection'
+import CourseSelection from '../../base/_components/CourseSelection'
 import StatusList from './_components/StatusList';
-import DateSelection, { formatDate } from '../_components/DateSelection';
 import { useSelector } from 'react-redux';
-import { getCourseDetailsArray } from '@/apis/courses';
-import { getAttendanceByCourseDate } from '@/apis/attendance';
+import { getAttendanceByCourseEnroll } from '@/apis/attendance';
 import AllCourses from './_components/allCourses';
-import BarChartComponent from '../_components/BarChartComponent';
+import BarChartComponent from '../../base/_components/BarChartComponent';
+import { getCourseDetailsArray } from '@/apis/courses';
+import PieChartComponent from '../_components/PieChartComponent';
 
-function AdminDashboard() {
+function Dashboard() {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [coursesIDArray, setCoursesIDArray] = useState(null);
   const [coursesArray, setCoursesArray] = useState(null);
-  const [totalStudents, setTotalStudents] = useState(null);
-  const [presentStudent, setPresentStudents] = useState(null);
+  const [totalClasses, setTotalClasses] = useState(null);
+  const [totalPresent, setTotalPresent] = useState(null);
 
-  const teacherDetails = useSelector((state) => state.teacherDetails.data);
+  const student = useSelector((state) => state.students.studentDetails)
 
   useEffect(() => {
-    if (teacherDetails) {
+    if (student) {
       let temp = [];
-      teacherDetails?.courses?.forEach(courseObject => {
-        temp.push(courseObject.cid);
+      student?.courses?.forEach(courseObject => {
+        temp.push(courseObject);
       })
       setCoursesIDArray(temp);
     }
-  }, [teacherDetails]);
+  }, [student])
 
   useEffect(() => {
     if (coursesIDArray) {
@@ -39,25 +39,31 @@ function AdminDashboard() {
           }
         })
         setCoursesArray(temp);
-        if(!selectedCourse){
-          setSelectedCourse(temp[0].cid); 
+        if (!selectedCourse) {
+          setSelectedCourse(temp[0].cid);
         }
       }
       fetchData();
     }
   }, [coursesIDArray])
 
-
   useEffect(() => {
-    if (selectedDate && coursesArray && selectedCourse) {
+    if (coursesArray && selectedCourse) {
       const fetchData = async () => {
-        const response = await getAttendanceByCourseDate(selectedCourse, selectedDate.isoDate);
-        setPresentStudents(response?.filter(record => record.status).length || 0);
-        setTotalStudents(response?.length || 0);
+        console.log(selectedCourse);
+        const response = await getAttendanceByCourseEnroll(selectedCourse, student.enroll);
+        setTotalClasses(response.length);
+        let present = 0;
+        response?.forEach(obj => {
+          if(obj.status){
+            present += 1;
+          }
+        })
+        setTotalPresent(present);
       };
       fetchData();
     }
-  }, [selectedDate, selectedCourse, coursesArray])
+  }, [selectedCourse || coursesArray])
 
 
   return (
@@ -73,17 +79,17 @@ function AdminDashboard() {
           }
         </div>
       </div>
-      <StatusList totalStudent={totalStudents} totalPresent={presentStudent}/>
+      <StatusList totalPresent={totalPresent} totalClasses={totalClasses} />
       <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
-        <div className='p-5 border rounded-lg shadow-sm h-80'>
-          <BarChartComponent />  
+        <div>
+          <AllCourses records={coursesArray} />
         </div>
         <div>
-          <AllCourses />  
+          <PieChartComponent totalPresent={totalPresent} totalClasses={totalClasses}/>
         </div>
       </div>
     </div>
   )
 }
 
-export default AdminDashboard
+export default Dashboard

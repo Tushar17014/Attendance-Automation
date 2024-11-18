@@ -24,7 +24,6 @@ function Dashboard() {
       let temp = [];
       teacherDetails?.courses?.forEach(courseObject => {
         temp.push(courseObject);
-        console.log(courseObject);
       })
       setCoursesIDArray(temp);
     }

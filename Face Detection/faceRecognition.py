@@ -39,7 +39,15 @@ def fun(encData, imagePath):
             cv2.putText(img2, str(countr), (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
             cv2.rectangle(img2, (x1, y1), (x2, y2), (0, 0, 255), 2)
         countr += 1
-    # cv2.imshow('Video', img2)
+    # screen_width = 800
+    # screen_height = 600
+    # scale_x = screen_width / img2.shape[1]
+    # scale_y = screen_height / img2.shape[0]
+    # scale = min(scale_x, scale_y)
+    # new_width = int(img2.shape[1] * scale)
+    # new_height = int(img2.shape[0] * scale)
+    # resized_img = cv2.resize(img2, (new_width, new_height), interpolation=cv2.INTER_AREA)
+    # cv2.imshow('Video', resized_img)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
     return result
