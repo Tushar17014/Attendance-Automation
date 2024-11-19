@@ -21,6 +21,9 @@ function StudentAttendanceList({ attendanceData }) {
                 if(ele == 'name'){
                     fieldArray.push({field: ele, width: 130});
                 }
+                else if(ele == 'enroll'){
+                    fieldArray.push({field: ele, sort: 'asc'});
+                }
                 else{
                     fieldArray.push({field: ele});
                 }

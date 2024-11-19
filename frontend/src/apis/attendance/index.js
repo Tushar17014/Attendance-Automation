@@ -55,8 +55,17 @@ export async function takeAttendance(data){
 
 export async function markAttendance(data, cid){
     try{
-        console.log("Data: ", data);
         const response = await axiosInstance.post(`/markAttendance`, {attendanceData: data, cid: cid});
+        return response;
+    } catch(err){
+        console.error(err.message);
+        return {};
+    }
+}
+
+export async function editAttendance(data, cid, date){
+    try{
+        const response = await axiosInstance.post(`/editAttendance`, {attendanceData: data, cid: cid, date: date});
         return response;
     } catch(err){
         console.error(err.message);

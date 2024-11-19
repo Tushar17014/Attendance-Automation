@@ -2,7 +2,7 @@ var express = require('express');
 var multer = require('multer');
 const { getAllTeachers, getTeacherByUid, getTeacherTimetable, getTeacherCourses, addTeacher } = require('../apis/teacher');
 const { getAllCourses, getCourseByID, getCourseByArrayID, addCourse } = require('../apis/courses');
-const { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, takeAttendance, markAttendance, getAttendanceByCourseEnroll } = require('../apis/attendance');
+const { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, takeAttendance, markAttendance, getAttendanceByCourseEnroll, editAttendance } = require('../apis/attendance');
 const { getAllStudents, getStudentByEnroll, getStudentByCourse, getStudentByTeacher, addStudentEncodings, addStudent } = require('../apis/student');
 var router = express.Router();
 const {upload} = require('../middlewares/uploadImage');
@@ -139,6 +139,11 @@ router.post(
 router.post(
   '/markAttendance',
   markAttendance
+);
+
+router.post(
+  '/editAttendance',
+  editAttendance
 );
 
 

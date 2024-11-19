@@ -125,9 +125,9 @@ async function getAttendanceByCourseEnroll(req, res, next) {
         const data = await attendanceRef.find().lean();
         let newdata = null;
         data?.forEach(x => {
-            if(x.enroll == req.query.enroll){
-                for(let ele in x.courses){
-                    if(x.courses[ele].cid == req.query.cid){
+            if (x.enroll == req.query.enroll) {
+                for (let ele in x.courses) {
+                    if (x.courses[ele].cid == req.query.cid) {
                         newdata = x.courses[ele].attendanceRecords;
                         break;
                     }
@@ -197,7 +197,7 @@ async function markSingleAttendance(enroll, cid, status, today) {
                 const newCourse = {
                     cid: cid,
                     attendanceRecords: [
-                        {date: today, status: status}
+                        { date: today, status: status }
                     ]
                 };
                 student.courses.push(newCourse);
@@ -222,13 +222,13 @@ async function markSingleAttendance(enroll, cid, status, today) {
     }
 }
 async function markAttendance(req, res) {
-    const {attendanceData, cid} = req.body;
+    const { attendanceData, cid } = req.body;
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0);
     try {
         attendanceData?.forEach(record => {
             let res = markSingleAttendance(record.enroll, cid, record.status, today);
-            if(!res){
+            if (!res) {
                 return Respond({
                     res,
                     status: 200,
@@ -247,6 +247,37 @@ async function markAttendance(req, res) {
     }
 }
 
+async function editAttendance(req, res) {
+    const { attendanceData, cid, date } = req.body;
+    try {
+        for (const record of attendanceData) {
+            const { enroll, status } = record;
+            await attendanceRef.updateOne(
+                {
+                    enroll,
+                    "courses.cid": cid,
+                },
+                {
+                    $set: { "courses.$[course].attendanceRecords.$[record].status": status },
+                },
+                {
+                    arrayFilters: [
+                        { "course.cid": cid },
+                        { "record.date": new Date(date) },
+                    ],
+                }
+            );
+        }
+        return Respond({
+            res,
+            status: 200,
+            data: { success: true }
+        });
 
+    } catch (error) {
+        console.error('Error Editing Attendance:', error);
+        return false;
+    }
+}
 
-module.exports = { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, getAttendanceByCourseEnroll, takeAttendance, markAttendance };
+module.exports = { getAttendanceByEnroll, getAttendanceByCourse, getAttendanceByTeacher, getAttendanceByCourseDate, getAttendanceByCourseEnroll, takeAttendance, markAttendance, editAttendance };

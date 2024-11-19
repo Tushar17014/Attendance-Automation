@@ -41,7 +41,7 @@ function Dashboard() {
         })
         setCoursesArray(temp);
         if(!selectedCourse){
-          setSelectedCourse(temp[0]); 
+          setSelectedCourse(temp[0].cid); 
         }
       }
       fetchData();

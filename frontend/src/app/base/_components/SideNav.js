@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import Image from 'next/image'
-import { CircleHelp, GraduationCap, Hand, LayoutIcon, NotebookPen, User } from 'lucide-react'
+import { CircleHelp, GraduationCap, Hand, LayoutIcon, NotebookPen, PencilIcon, User } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
@@ -30,6 +30,12 @@ function SideNav() {
       name: 'Check Attendance',
       icon: Hand,
       path: '/teacher/check-attendance'
+    },
+    {
+      id: 5,
+      name: 'Edit Attendance',
+      icon: PencilIcon,
+      path: '/teacher/edit-attendance'
     },
   ]
   const path = usePathname();
